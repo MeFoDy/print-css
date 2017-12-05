@@ -1,0 +1,155 @@
+:root {
+    --text-indent: 40px;
+}
+
+body {
+    counter-reset: chapternum subcharternum subsubcharternum figurenum tablenum listnum;
+}
+
+body > * {
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+    font-size: 18px;
+    font-family: 'Times New Roman';
+    hyphens: auto;
+    display: block;
+    box-sizing: border-box;
+}
+
+script {
+    display: none;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+table td,
+table th {
+    border: 1px solid black;
+    vertical-align: top;
+}
+table caption {
+    text-align: left;
+    counter-increment: tablenum;
+}
+table caption::before {
+    content: "Таблица " counter(chapternum) "." counter(tablenum) " — ";
+}
+table th {
+    font-weight: normal;
+    text-align: left;
+}
+
+p {
+    text-indent: var(--text-indent);
+    text-align: justify;
+}
+
+h1, h2, h3 {
+    font-weight: bold;
+    text-indent: var(--text-indent);
+}
+
+h1 {
+    text-transform: uppercase;
+    display: block;
+    position: relative;
+    text-indent: 0;
+    counter-reset: subchapternum figurenum tablenum;
+    margin-bottom: 1em;
+}
+
+h1:not(.unnumered) {
+    counter-increment: chapternum;
+    padding-left: var(--text-indent);
+}
+h1:not(.unnumered)::before {
+    content: counter(chapternum) " ";
+    height: 100%;
+    position: absolute;
+    left: calc(-1em + var(--text-indent));
+}
+
+h1.unnumered {
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 1em;
+    margin-top: 1em;
+    counter-reset: subsubchapternum;
+    counter-increment: subchapternum;
+}
+h2::before {
+    content: counter(chapternum) "." counter(subchapternum) " ";
+}
+
+h3 {
+    margin-top: 1em;
+    counter-increment: subsubchapternum;
+    font-weight: normal;
+}
+h3::before {
+    content: counter(chapternum) "." counter(subchapternum) "." counter(subsubchapternum) " ";
+    font-weight: bold;
+}
+
+figure {
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    margin: 1em auto;
+}
+
+figure img {
+    max-width: 700px;
+    margin-bottom: 1em;
+}
+
+figure figcaption {
+    counter-increment: figurenum;
+}
+figure figcaption::before {
+    content: "Рисунок " counter(chapternum) "." counter(figurenum) " — "
+}
+
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: justify;
+}
+ul > li {
+    text-indent: var(--text-indent);
+}
+ul > li::before {
+    content: "–";
+    margin-right: 6px;
+}
+
+ol {
+    counter-reset: listnum;
+    padding: 0;
+    text-align: justify;
+    list-style-type: none;
+}
+ol > li {
+    counter-increment: listnum;
+    text-indent: var(--text-indent);
+}
+ol > li::before {
+    content: counter(listnum) ")";
+    margin-right: 6px;
+}
+
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.center {
+    text-align: center;
+}
