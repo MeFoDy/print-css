@@ -49,6 +49,17 @@ table {
         line-height: 1;
     }
 
+    body {
+        counter-increment: page 2;
+        counter-reset:
+            chapternum subchapternum subsubchapternum figurenum tablenum listnum sourcenum
+            totalimages totaltables;
+    }
+
+    script {
+        display: none;
+    }
+
     @page {
         size: A4;
         margin: 20mm 15mm 20mm 30mm;
@@ -59,22 +70,263 @@ table {
         text-align: justify;
     }
 
+    table {
+        border-collapse: collapse;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+    table td,
+    table th {
+        border: 1px solid black;
+        vertical-align: top;
+        padding: 2px;
+        text-align: left;
+        page-break-inside: avoid;
+    }
+    table caption {
+        text-align: left;
+    }
+    table:not(.continue) caption {
+        counter-increment: tablenum totaltables;
+    }
+    table caption::before {
+        content: "Таблица " counter(chapternum) "." counter(tablenum) " — ";
+    }
+
+    table.with-continue tr:last-child td {
+        border-bottom: 0;
+    }
+    table.continue caption::before {
+        content: "";
+    }
+    table.continue caption::after {
+        content: " " counter(chapternum) "." counter(tablenum);
+    }
+    table th {
+        font-weight: normal;
+        text-align: left;
+    }
+
+    .table-target {
+        font-size: 0;
+    }
+    .table-target::before {
+        font-size: 14pt;
+        content: target-counter(attr(data-target url), chapternum) "." target-counter(attr(data-target url), tablenum);
+    }
+
+    .pages-count,
+    .images-count,
+    .tables-count,
+    .sources-count {
+        font-size: 0;
+    }
+    .pages-count::before {
+        font-size: 14pt;
+        content: target-counter(attr(data-target url), page);
+    }
+    .images-count::before {
+        font-size: 14pt;
+        content: target-counter(attr(data-target url), totalimages);
+    }
+    .tables-count::before {
+        font-size: 14pt;
+        content: target-counter(attr(data-target url), totaltables);
+    }
+    .sources-count::before {
+        font-size: 14pt;
+        content: target-counter(attr(data-target url), sourcenum);
+    }
+
+    p {
+        text-align: justify;
+    }
+
     h1, h2, h3 {
+        font-weight: bold;
+        text-indent: 12.5mm;
+    }
+
+    h1 {
+        text-transform: uppercase;
+        display: block;
+        position: relative;
+        text-indent: 0;
+        counter-reset: subchapternum figurenum tablenum;
+        margin-bottom: 1em;
+    }
+
+    h1:not(.unnumered) {
+        counter-increment: chapternum;
+        padding-left: 12.5mm;
+    }
+    h1:not(.unnumered)::before {
+        content: counter(chapternum) " ";
+        height: 100%;
+        position: absolute;
+        left: 1.7em;
+    }
+
+    h1.unnumered {
+        text-align: center;
+    }
+
+    h2 {
+        margin-bottom: 1em;
+        margin-top: 1em;
+        counter-reset: subsubchapternum;
+        counter-increment: subchapternum;
+    }
+    h2::before {
+        content: counter(chapternum) "." counter(subchapternum) " ";
+    }
+
+    h3 {
+        margin-top: 1em;
+        counter-increment: subsubchapternum;
+        font-weight: normal;
+    }
+    h3::before {
+        content: counter(chapternum) "." counter(subchapternum) "." counter(subsubchapternum) " ";
         font-weight: bold;
     }
 
-    h1, h2 {
+    figure {
+        width: 100%;
+        max-width: 100%;
+        text-align: center;
+        margin: 1em auto;
+    }
+
+    figure img {
+        max-width: 100%;
+        max-height: 24cm;
         margin-bottom: 1em;
+    }
+
+    figure figcaption {
+        counter-increment: figurenum totalimages;
+    }
+    figure figcaption::before {
+        content: "Рисунок " counter(chapternum) "." counter(figurenum) " — "
+    }
+
+    .image-target {
+        font-size: 0;
+    }
+    .image-target::before {
+        font-size: 14pt;
+        content: target-counter(attr(data-target url), chapternum) "." target-counter(attr(data-target url), figurenum);
+    }
+
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        text-align: justify;
+    }
+    ul > li {
+        text-indent: 12.5mm;
+    }
+    ul > li::before {
+        content: "–";
+        margin-right: 0.33em;
+    }
+
+    ol {
+        counter-reset: listnum;
+        padding: 0;
+        text-align: justify;
+        list-style-type: none;
+    }
+    ol > li {
+        counter-increment: listnum;
+        text-indent: 12.5mm;
+    }
+    ol > li::before {
+        content: counter(listnum) ")";
+        margin-right: 0.33em;
+    }
+    ol.sources-list > li {
+        counter-increment: sourcenum;
+    }
+    ol.sources-list > li::before {
+        content: "[" counter(sourcenum) "]";
+    }
+    .source-target {
+        font-size: 0;
+    }
+    .source-target::before {
+        font-size: 14pt;
+        content: "[" target-counter(attr(data-target url), sourcenum) "]";
+    }
+    table ol > li,
+    table ul > li {
+        text-indent: 0;
+        text-align: left;
+    }
+
+    ul.toc li {
+        text-indent: 0;
+        margin-left: 1.25cm;
+        text-align: left;
+    }
+    ul.toc li a {
+        text-decoration: none;
+        color: #000000;
+    }
+    ul.toc li a::after {
+        content: leader(".") target-counter(attr(href url), page);
+    }
+    ul.toc li::before {
+        content: "";
+        margin-right: 0;
+    }
+    ul.toc li.toc-level-1 {}
+    ul.toc li.toc-level-1:not(.unnumered) a::before {
+        content: target-counter(attr(href url), chapternum) " ";
+    }
+    ul.toc li.toc-level-2 {
+        margin-left: 1.75cm;
+    }
+    ul.toc li.toc-level-2:not(.unnumered) a::before {
+        content: target-counter(attr(href url), chapternum) "." target-counter(attr(href url), subchapternum) " ";
+    }
+    ul.toc li::after {
+
+    }
+
+    p code,
+    code {
+        text-align: left;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        display: block;
+        text-indent: 12.5mm;
+        font-family: monospace;
+    }
+
+    p code + code {
+        margin-top: -1em;
+    }
+
+    pre code {
+        white-space: pre-wrap;
+    }
+
+
+    .uppercase {
+        text-transform: uppercase;
+    }
+
+    .center {
+        text-align: center;
     }
 
     h1 {
         text-transform: uppercase;
         page-break-before: always;
         display: block;
-    }
-
-    h2 {
-        margin-top: 1em;
     }
 
     table {
