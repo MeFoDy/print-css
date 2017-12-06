@@ -1,5 +1,5 @@
 {
-  "name": "print",
+  "name": "print-css",
   "version": "1.0.0",
   "description": "",
   "main": "index.html",
@@ -8,7 +8,7 @@
     "pdf": "prince index.html",
     "build": "npm run md && npm run pdf"
   },
-  "author": "",
+  "author": "Nikita Dubko <n.a.dubko@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.18.13",

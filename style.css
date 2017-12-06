@@ -3,7 +3,7 @@
 }
 
 body {
-    counter-reset: chapternum subcharternum subsubcharternum figurenum tablenum listnum;
+    counter-reset: chapternum subchapternum subsubchapternum figurenum tablenum listnum;
 }
 
 body > * {
@@ -30,6 +30,8 @@ table td,
 table th {
     border: 1px solid black;
     vertical-align: top;
+    padding: 2px;
+    text-align: left;
 }
 table caption {
     text-align: left;
@@ -143,6 +145,28 @@ ol > li {
 ol > li::before {
     content: counter(listnum) ")";
     margin-right: 6px;
+}
+table ol > li,
+table ul > li {
+    text-indent: 0;
+    text-align: left;
+}
+
+p code,
+code {
+    text-align: left;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    display: block;
+    text-indent: var(--text-indent);
+}
+
+p code + code {
+    margin-top: -1em;
+}
+
+pre code {
+    white-space: pre-wrap;
 }
 
 
