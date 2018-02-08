@@ -41,6 +41,14 @@ table {
 	border-spacing: 0;
 }
 
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: bold;
+}
+
 @media print {
     body * {
         font-family: 'Times New Roman';
@@ -63,6 +71,12 @@ table {
     @page {
         size: A4;
         margin: 20mm 15mm 20mm 30mm;
+
+        @bottom-right {
+            content: counter(page);
+            vertical-align: top;
+            padding-top: 3mm;
+        }
     }
 
     p {

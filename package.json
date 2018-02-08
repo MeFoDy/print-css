@@ -6,13 +6,18 @@
   "scripts": {
     "md": "kramdown ./index.md > index.html",
     "pdf": "prince index.html",
-    "build": "npm run md && npm run pdf"
+    "build": "npm run pdf"
   },
   "author": "Nikita Dubko <n.a.dubko@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.18.13",
     "gulp": "^3.9.1",
-    "gulp-run": "^1.7.1"
+    "gulp-run": "^1.7.1",
+    "mathjax-node-page": "^2.0.0",
+    "mathjax-node-svg2png": "^2.0.0"
+  },
+  "dependencies": {
+    "mathjax": "^2.7.2"
   }
 }
